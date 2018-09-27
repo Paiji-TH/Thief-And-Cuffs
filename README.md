@@ -8,8 +8,8 @@ Nothing more to it really...
 
 ## TO DO
 
-    - Add Config system for searching
-    - Add ability to steal weapons
+- Add Config system for searching
+- Add ability to steal weapons
     
 ## DONE
 

@@ -10,6 +10,9 @@ Nothing more to it really...
 
     - Fix the issue with "no hands up" when searching
     - Add only weapon when searching
+    - Add Config system for searching
+    - Add ability to steal weapons
+    - Add Locales for menu
 
 ## BASED ON
 

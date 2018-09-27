@@ -8,11 +8,11 @@ Nothing more to it really...
 
 ## TO DO
 
-    - Fix the issue with "no hands up" when searching
-    - Add only weapon when searching
     - Add Config system for searching
     - Add ability to steal weapons
-    - Add Locales for menu
+    - ~~Fix the issue with "no hands up" when searching~~
+    - ~~Add need weapon when searching~~
+    - ~~Add Locales for menu~~
 
 ## BASED ON
 

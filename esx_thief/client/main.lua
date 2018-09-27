@@ -12,10 +12,10 @@ local Keys = {
 
 ESX = nil
 
-local handcuffed = false
+local handcuffed                = false
 local IsDragged                 = false
 local CopPed                    = 0
-local IsAbleToSteal             = false
+local IsAbleToSearch            = false
 
 
 Citizen.CreateThread(function()
@@ -26,8 +26,19 @@ Citizen.CreateThread(function()
 end)
 
 
----- MENU
+function IsAbleToSteal(targetSID, err)
+    ESX.TriggerServerCallback('esx_thief:getValue', function(result)
+        local result = result
+    	if result.value then
+    		err(false)
+    	else
+    		err(_U('no_hands_up'))
+    	end
+    end, targetSID)
+end
 
+
+---- MENU
 
 function GetPlayers()
     local players = {}
@@ -59,18 +70,16 @@ function GetClosestPlayer()
             end
         end
     end
-
     return closestPlayer, closestDistance
 end
 
 function OpenCuffMenu()
 
   local elements = {
-        {label = 'Skuj', value = 'cuff'},
-        {label = 'Rozkuj', value = 'uncuff'}, 
-        {label = 'Ciągnij', value = 'drag'},
-		{label = 'Przeszukaj', value = 'search'},
-        
+        {label = _U('cuff'), value = 'cuff'},
+        {label = _U('uncuff'), value = 'uncuff'}, 
+        {label = _U('drag'), value = 'drag'},
+		{label = _U('search'), value = 'search'}, 
       }
 
   ESX.UI.Menu.CloseAll()
@@ -78,61 +87,48 @@ function OpenCuffMenu()
   ESX.UI.Menu.Open(
     'default', GetCurrentResourceName(), 'cuffing',
     {
-      title    = 'KAJDANKI',
+      title    = _U('handcuffs'),
       align    = 'top-left',
       elements = elements
       },
-
           function(data2, menu2)
-
-
             local player, distance = ESX.Game.GetClosestPlayer()
-
             if distance ~= -1 and distance <= 3.0 then
-
               if data2.current.value == 'cuff' then
-                IsAbleToSteal = true
+                IsAbleToSearch = true
                   TriggerServerEvent('cuffServer', GetPlayerServerId(player))
               end
-
               if data2.current.value == 'uncuff' then
-                IsAbleToSteal = false
+                IsAbleToSearch = false
                 TriggerServerEvent('unCuffServer', GetPlayerServerId(player))
               end
-
               if data2.current.value == 'drag' then
                  TriggerServerEvent('dragServer', GetPlayerServerId(player))
-              end
-			  
+              end  
               if data2.current.value == 'search' then
-                if IsAbleToSteal then
-                    local target, distance = ESX.Game.GetClosestPlayer()
 
-                    if target ~= -1 and distance ~= -1 and distance <= 2.0 then
+                local ped = PlayerPedId()
 
-                        local target_id = GetPlayerServerId(target)
-
-                        OpenStealMenu(target, target_id)
-                        TriggerEvent('animation')
-                            
-                    elseif distance < 20 and distance > 2.0 then
-
-                        ESX.ShowNotification(_U('too_far'))
-                                
+                if IsAbleToSearch then
+                    if IsAbleToSteal and IsPedArmed(ped, 7) then
+                        local target, distance = ESX.Game.GetClosestPlayer()
+                        if target ~= -1 and distance ~= -1 and distance <= 2.0 then
+                            local target_id = GetPlayerServerId(target)
+                            OpenStealMenu(target, target_id)
+                            TriggerEvent('animation')
+                        elseif distance < 20 and distance > 2.0 then
+                            ESX.ShowNotification(_U('too_far'))
+                        else
+                            ESX.ShowNotification(_U('no_players_nearby'))
+                        end
                     else
-                            
-                        ESX.ShowNotification(_U('no_players_nearby'))
-                                
+                        ESX.ShowNotification(_U('not_cuffed'))
+                    
                     end
-                                                
-                else
-                            
-                    ESX.ShowNotification("Gracz nie jest skuty")
-                
                 end
               end
             else
-              ESX.ShowNotification('~r~Nie ma żadnego gracza w pobliżu.')
+              ESX.ShowNotification(_U('no_players_nearby'))
             end
           end,
     function(data2, menu2)
@@ -154,7 +150,7 @@ AddEventHandler('cuffClient', function()
 	SetEnableHandcuffs(pP, true)
 	SetCurrentPedWeapon(pP, GetHashKey('WEAPON_UNARMED'), true)
 	DisablePlayerFiring(pP, true)
-  ESX.ShowNotification('~o~Zostałeś skuty.')
+    ESX.ShowNotification(_U('cuffed'))
 	--FreezeEntityPosition(pP, true)
 	handcuffed = true
 end)
@@ -165,7 +161,7 @@ AddEventHandler('unCuffClient', function()
 	ClearPedSecondaryTask(pP)
 	SetEnableHandcuffs(pP, false)
 	SetCurrentPedWeapon(pP, GetHashKey('WEAPON_UNARMED'), true)
-  ESX.ShowNotification('~g~Zostałeś rozkuty.')
+  ESX.ShowNotification(_U('uncuffed'))
 	--FreezeEntityPosition(pP, false)
 	handcuffed = false
 end)
@@ -226,19 +222,6 @@ end)
 
 ---- END MENU
 
-
---[[
-function IsAbleToSteal(targetSID, err)
-    ESX.TriggerServerCallback('esx_thief:getValue', function(result)
-        local result = result
-    	if result.value then
-    		err(false)
-    	else
-    		err(_U('no_hands_up'))
-    	end
-    end, targetSID)
-end
-]]--
 
 function OpenStealMenu(target, target_id)
 
@@ -328,7 +311,6 @@ function OpenStealMenu(target, target_id)
                                     
                                         menu3.close()
                                         menu2.close()
-                                    
                                     end,
                                     function(data3, menu3)
                                       menu3.close()
@@ -368,7 +350,10 @@ end
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-            if IsControlJustPressed(1, Keys['G']) then -- OPEN CUFF MENU
+
+            local ped = PlayerPedId()
+
+            if IsControlJustPressed(1, Keys['G']) and not IsEntityDead(ped) and not IsPedInAnyVehicle(ped, true) then -- OPEN CUFF MENU
                 OpenCuffMenu()
             end
     end

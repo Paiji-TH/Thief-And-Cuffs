@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Locale = 'en'
+Config.Locale = 'pl'
 
 Config.EnableCash       = true
 Config.EnableBlackMoney = true

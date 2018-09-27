@@ -17,5 +17,13 @@ Locales['fr'] = {
     ['from_your_target']    = 'à votre cible',
     ['someone_stole']       = 'Un individu vous a volé',
     ['invalid_quantity']    = 'Quantité invalide',
+    ['cuff']				= 'cuff',
+	['uncuff']				= 'uncuff',
+	['search']				= 'search',
+	['drag']				= 'drag',
+    ['handcuffs']			= 'handcuffs',
+    ['not_cuffed']          = 'player is not cuffed',
+    ['cuffed']              = 'you\'ve been cuffed',
+    ['uncuffed']            = 'you\'ve been uncuffed',
 
 }

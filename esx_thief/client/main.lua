@@ -59,18 +59,16 @@ function GetClosestPlayer()
             end
         end
     end
-
     return closestPlayer, closestDistance
 end
 
 function OpenCuffMenu()
 
   local elements = {
-        {label = 'Skuj', value = 'cuff'},
-        {label = 'Rozkuj', value = 'uncuff'}, 
-        {label = 'Ciągnij', value = 'drag'},
-		{label = 'Przeszukaj', value = 'search'},
-        
+        {label = _U('cuff'), value = 'cuff'},
+        {label = _U('uncuff'), value = 'uncuff'}, 
+        {label = _U('drag'), value = 'drag'},
+		{label = _U('search'), value = 'search'}, 
       }
 
   ESX.UI.Menu.CloseAll()
@@ -78,55 +76,37 @@ function OpenCuffMenu()
   ESX.UI.Menu.Open(
     'default', GetCurrentResourceName(), 'cuffing',
     {
-      title    = 'KAJDANKI',
+      title    = _U('handcuffs'),
       align    = 'top-left',
       elements = elements
       },
-
           function(data2, menu2)
-
-
             local player, distance = ESX.Game.GetClosestPlayer()
-
             if distance ~= -1 and distance <= 3.0 then
-
               if data2.current.value == 'cuff' then
                 IsAbleToSteal = true
                   TriggerServerEvent('cuffServer', GetPlayerServerId(player))
               end
-
               if data2.current.value == 'uncuff' then
                 IsAbleToSteal = false
                 TriggerServerEvent('unCuffServer', GetPlayerServerId(player))
               end
-
               if data2.current.value == 'drag' then
                  TriggerServerEvent('dragServer', GetPlayerServerId(player))
-              end
-			  
+              end  
               if data2.current.value == 'search' then
                 if IsAbleToSteal then
                     local target, distance = ESX.Game.GetClosestPlayer()
-
                     if target ~= -1 and distance ~= -1 and distance <= 2.0 then
-
                         local target_id = GetPlayerServerId(target)
-
                         OpenStealMenu(target, target_id)
                         TriggerEvent('animation')
-                            
                     elseif distance < 20 and distance > 2.0 then
-
                         ESX.ShowNotification(_U('too_far'))
-                                
                     else
-                            
                         ESX.ShowNotification(_U('no_players_nearby'))
-                                
                     end
-                                                
                 else
-                            
                     ESX.ShowNotification("Gracz nie jest skuty")
                 
                 end
@@ -328,7 +308,6 @@ function OpenStealMenu(target, target_id)
                                     
                                         menu3.close()
                                         menu2.close()
-                                    
                                     end,
                                     function(data3, menu3)
                                       menu3.close()

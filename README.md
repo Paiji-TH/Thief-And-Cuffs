@@ -13,9 +13,9 @@ Nothing more to it really...
     
 ## DONE
 
-~~Fix the issue with "no hands up" when searching~~
-~~Add need weapon when searching~~
-~~Add Locales for menu~~
+- ~~Fix the issue with "no hands up" when searching~~
+- ~~Add need weapon when searching~~
+- ~~Add Locales for menu~~
 
 ## BASED ON
 

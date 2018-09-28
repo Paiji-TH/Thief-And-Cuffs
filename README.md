@@ -15,7 +15,7 @@ Nothing more to it really...
 - ~~Fix the issue with "no hands up" when searching~~
 - ~~Add need weapon when searching~~
 - ~~Add Locales for menu~~
-- ~~Add Config system for searching~~
+- ~~Add Config system for items~~
 
 ## BASED ON
 

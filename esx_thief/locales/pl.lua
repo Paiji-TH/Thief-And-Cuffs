@@ -28,6 +28,5 @@ Locales['pl'] = {
     ['no_rope']             = 'nie masz liny',
     ['gun_label']           = 'brone',
     ['not_armed']           = 'nie masz broni',
-    ['no_hands_up']         = 'gracz nie ma rak w gorze'
 }
     

@@ -8,7 +8,7 @@ Nothing more to it really...
 
 ## TO DO
 
-- Add ability to steal weapons
+- No idea... But if you have a suggestion put it in "ISSUES"
     
 ## DONE
 
@@ -16,6 +16,7 @@ Nothing more to it really...
 - ~~Add need weapon when searching~~
 - ~~Add Locales for menu~~
 - ~~Add Config system for items~~
+- ~~Add ability to steal weapons~~
 
 ## BASED ON
 

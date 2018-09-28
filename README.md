@@ -6,6 +6,18 @@ In this version when pressing "G" (Can be edited line 371 in Client.lua) a menu 
 
 Nothing more to it really...
 
+## FEATURES
+
+- Ability to cuff and uncuff a player
+- Ability to drag a player
+- Ability to search a player
+    - You can search and steal
+        - Money
+        - Black money
+        - Items
+        - Weapons
+- Everything is configurable in Config.lua
+
 ## TO DO
 
 - No idea... But if you have a suggestion put it in "ISSUES"

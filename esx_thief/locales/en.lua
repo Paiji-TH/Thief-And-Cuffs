@@ -24,5 +24,7 @@ Locales['en'] = {
     ['not_cuffed']          = 'player is not cuffed',
     ['cuffed']              = 'you\'ve been cuffed',
     ['uncuffed']            = 'you\'ve been uncuffed',
+    ['no_handcuffs']        = 'you do not have handcuffs',
+    ['no_rope']             = 'you do not have a rope',
 }
     

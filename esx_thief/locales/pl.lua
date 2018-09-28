@@ -24,5 +24,7 @@ Locales['pl'] = {
     ['not_cuffed']          = 'gracz nie jest zakuty',
     ['cuffed']              = 'zostałeś zakuty',
     ['uncuffed']            = 'zostałeś rozkuty',
+    ['no_handcuffs']        = 'nie masz kajdanek',
+    ['no_rope']             = 'nie masz liny',
 }
     

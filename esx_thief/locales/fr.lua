@@ -1,5 +1,4 @@
 Locales['fr'] = {
-
     ['no_hands_up']         = 'La cible n\'a pas les mains en l\'air !',
     ['cash']                = 'Cash',
     ['black_money']         = 'Argent Sale',
@@ -25,5 +24,6 @@ Locales['fr'] = {
     ['not_cuffed']          = 'player is not cuffed',
     ['cuffed']              = 'you\'ve been cuffed',
     ['uncuffed']            = 'you\'ve been uncuffed',
-
+    ['no_handcuffs']        = 'you do not have handcuffs',
+    ['no_rope']             = 'you do not have a rope',
 }

@@ -139,3 +139,12 @@ AddEventHandler("esx_thief:getValue", function(targetSID)
 		TriggerClientEvent("esx_thief:returnValue", source, Users[targetSID])
 	end
 end)
+
+
+---- HANDCUFFS + ROPE ----
+
+ESX.RegisterServerCallback('esx_thief:getItemQ', function(source, cb, item)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local quantity = xPlayer.getInventoryItem(item).count
+    cb(quantity)
+end)

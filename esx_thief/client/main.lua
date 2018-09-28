@@ -37,7 +37,6 @@ function IsAbleToSteal(targetSID, err)
     end, targetSID)
 end
 
-
 ---- MENU
 
 function GetPlayers()
@@ -95,15 +94,48 @@ function OpenCuffMenu()
             local player, distance = ESX.Game.GetClosestPlayer()
             if distance ~= -1 and distance <= 3.0 then
               if data2.current.value == 'cuff' then
-                IsAbleToSearch = true
-                  TriggerServerEvent('cuffServer', GetPlayerServerId(player))
+                if Config.EnableItems then
+                    ESX.TriggerServerCallback('esx_thief:getItemQ', function(quantity)
+                        if quantity > 0 then
+                            IsAbleToSearch = true
+                            TriggerServerEvent('cuffServer', GetPlayerServerId(player))
+                    else
+                        ESX.ShowNotification(_U('no_handcuffs'))
+                    end
+                    end, 'handcuffs')
+                else
+                    IsAbleToSearch = true
+                    TriggerServerEvent('cuffServer', GetPlayerServerId(player))
+                end
               end
               if data2.current.value == 'uncuff' then
-                IsAbleToSearch = false
-                TriggerServerEvent('unCuffServer', GetPlayerServerId(player))
+                if Config.EnableItems then
+                    ESX.TriggerServerCallback('esx_thief:getItemQ', function(quantity)
+                        if quantity > 0 then
+                            IsAbleToSearch = false
+                            TriggerServerEvent('cuffServer', GetPlayerServerId(player))
+                    else
+                        ESX.ShowNotification(_U('no_handcuffs'))
+                    end
+                    end, 'handcuffs')
+                else
+                    IsAbleToSearch = false
+                    TriggerServerEvent('cuffServer', GetPlayerServerId(player))
+                end
               end
               if data2.current.value == 'drag' then
-                 TriggerServerEvent('dragServer', GetPlayerServerId(player))
+                if Config.EnableItems then
+                    ESX.TriggerServerCallback('esx_thief:getItemQ', function(quantity)
+                        if quantity > 0 then
+                            IsAbleToSearch = false
+                            TriggerServerEvent('dragServer', GetPlayerServerId(player))
+                    else
+                        ESX.ShowNotification(_U('no_rope'))
+                    end
+                    end, 'rope')
+                else
+                    TriggerServerEvent('dragServer', GetPlayerServerId(player))
+                end
               end  
               if data2.current.value == 'search' then
 

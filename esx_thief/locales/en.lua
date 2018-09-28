@@ -26,5 +26,6 @@ Locales['en'] = {
     ['uncuffed']            = 'you\'ve been uncuffed',
     ['no_handcuffs']        = 'you do not have handcuffs',
     ['no_rope']             = 'you do not have a rope',
+    ['gun_label']           = 'weapons',
 }
     

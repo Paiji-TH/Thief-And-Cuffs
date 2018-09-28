@@ -95,14 +95,24 @@ function OpenCuffMenu()
             if distance ~= -1 and distance <= 3.0 then
               if data2.current.value == 'cuff' then
                 if Config.EnableItems then
-                    ESX.TriggerServerCallback('esx_thief:getItemQ', function(quantity)
-                        if quantity > 0 then
-                            IsAbleToSearch = true
-                            TriggerServerEvent('cuffServer', GetPlayerServerId(player))
-                    else
-                        ESX.ShowNotification(_U('no_handcuffs'))
-                    end
-                    end, 'handcuffs')
+
+                    local target_id = GetPlayerServerId(player)
+                
+                    IsAbleToSteal(target_id, function(err)
+
+                        if not err then
+                            ESX.TriggerServerCallback('esx_thief:getItemQ', function(quantity)
+                                if quantity > 0 then
+                                    IsAbleToSearch = true
+                                    TriggerServerEvent('cuffServer', GetPlayerServerId(player))
+                                else
+                                    ESX.ShowNotification(_U('no_handcuffs'))
+                                end
+                            end, 'handcuffs')
+                        else
+                            ESX.ShowNotification(err)
+                        end
+                    end)
                 else
                     IsAbleToSearch = true
                     TriggerServerEvent('cuffServer', GetPlayerServerId(player))
@@ -113,10 +123,10 @@ function OpenCuffMenu()
                     ESX.TriggerServerCallback('esx_thief:getItemQ', function(quantity)
                         if quantity > 0 then
                             IsAbleToSearch = false
-                            TriggerServerEvent('cuffServer', GetPlayerServerId(player))
-                    else
-                        ESX.ShowNotification(_U('no_handcuffs'))
-                    end
+                            TriggerServerEvent('unCuffServer', GetPlayerServerId(player))
+                        else
+                            ESX.ShowNotification(_U('no_handcuffs'))
+                        end
                     end, 'handcuffs')
                 else
                     IsAbleToSearch = false
@@ -129,9 +139,9 @@ function OpenCuffMenu()
                         if quantity > 0 then
                             IsAbleToSearch = false
                             TriggerServerEvent('dragServer', GetPlayerServerId(player))
-                    else
-                        ESX.ShowNotification(_U('no_rope'))
-                    end
+                        else
+                            ESX.ShowNotification(_U('no_rope'))
+                        end
                     end, 'rope')
                 else
                     TriggerServerEvent('dragServer', GetPlayerServerId(player))
@@ -141,8 +151,8 @@ function OpenCuffMenu()
 
                 local ped = PlayerPedId()
 
-                if IsAbleToSearch then
-                    if IsAbleToSteal and IsPedArmed(ped, 7) then
+                if IsPedArmed(ped, 7) then
+                    if IsAbleToSearch then
                         local target, distance = ESX.Game.GetClosestPlayer()
                         if target ~= -1 and distance ~= -1 and distance <= 2.0 then
                             local target_id = GetPlayerServerId(target)
@@ -157,6 +167,8 @@ function OpenCuffMenu()
                         ESX.ShowNotification(_U('not_cuffed'))
                     
                     end
+                else
+                    ESX.ShowNotification(_U('not_armed'))
                 end
               end
             else
@@ -303,6 +315,18 @@ function OpenStealMenu(target, target_id)
             end
         end
 
+        if Config.EnableWeapons then
+            table.insert(elements, {label = '=== ' .. _U('gun_label') .. ' ===', value = nil})
+
+            for i=1, #data.weapons, 1 do
+                table.insert(elements, {
+                    label    = ESX.GetWeaponLabel(data.weapons[i].name) .. ' x' .. data.weapons[i].ammo,
+                    value    = data.weapons[i].name,
+                    type     = 'item_weapon',
+                    amount   = data.weapons[i].ammo
+                })
+            end
+        end
 
         ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'steal_inventory',
         {
@@ -348,7 +372,7 @@ function OpenStealMenu(target, target_id)
                                       menu3.close()
                                     end
                                   )
-                              
+
                             else
                                 TriggerServerEvent('esx_thief:stealPlayerItem', GetPlayerServerId(target), itemType, itemName, amount)
                                 OpenStealMenu(target)

@@ -47,7 +47,8 @@ ESX.RegisterServerCallback('esx_thief:getOtherPlayerData', function(source, cb, 
       name        = GetPlayerName(target),
       inventory   = xPlayer.inventory,
       accounts    = xPlayer.accounts,
-      money       = xPlayer.get('money')
+      money       = xPlayer.get('money'),
+      weapons     = xPlayer.loadout
 
     }
 
@@ -63,6 +64,7 @@ AddEventHandler('esx_thief:stealPlayerItem', function(target, itemType, itemName
     local targetXPlayer = ESX.GetPlayerFromId(target)
 
     if itemType == 'item_standard' then
+        print("item_standard")
 
         local label = sourceXPlayer.getInventoryItem(itemName).label
         local itemLimit = sourceXPlayer.getInventoryItem(itemName).limit
@@ -122,6 +124,16 @@ AddEventHandler('esx_thief:stealPlayerItem', function(target, itemType, itemName
 
   end
 
+  if itemType == 'item_weapon' then
+    print("Item_weapon")
+    if amount == nil then amount = 0 end
+
+        targetXPlayer.removeWeapon(itemName, amount)
+        sourceXPlayer.addWeapon(itemName, amount)
+
+        TriggerClientEvent('esx:showNotification', sourceXPlayer.source, _U('you_stole') .. ' ~g~x' .. amount .. ' ' .. label .. ' ~w~' .. _U('from_your_target') )
+        TriggerClientEvent('esx:showNotification', targetXPlayer.source, _U('someone_stole') .. ' ~r~x'  .. amount .. ' ' .. label )
+  end
 end)
 
 RegisterServerEvent("esx_thief:update")

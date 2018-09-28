@@ -16,6 +16,7 @@ Nothing more to it really...
         - Black money
         - Items
         - Weapons
+- You can turn on and off, the requirement for items in equipment
 - Everything is configurable in Config.lua
 
 ## TO DO

@@ -4,6 +4,8 @@ Editted Version of the [esx_thief](https://github.com/ESX-PUBLIC/esx_thief) scri
 
 In this version when pressing "G" (Can be edited line 371 in Client.lua) a menu to cuff / uncuff / search / move appears. 
 
+You must use my handsup script for this to work or alter your one to work like mine (i will not help alter your script)
+
 Nothing more to it really...
 
 ## FEATURES

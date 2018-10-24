@@ -23,6 +23,8 @@ Nothing more to it really...
 
 ## TO DO
 
+- Put a player into a vehicle
+- Optimize the script a little
 - No idea... But if you have a suggestion put it in "ISSUES"
     
 ## DONE

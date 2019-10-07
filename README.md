@@ -1,4 +1,4 @@
-# ESX_THIEF
+# ESX_THIEF เวอร์ชั้นที่กำหนดให้มีกุจแจมือ
 
 Editted Version of the [esx_thief](https://github.com/ESX-PUBLIC/esx_thief) script.
 
